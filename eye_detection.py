@@ -170,6 +170,7 @@ currentCount = 0
 # loop over frames from the video stream
 
 mouse = Mouse()
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 
 while True:
@@ -185,6 +186,9 @@ while True:
     frame = vs.read()
     frame = imutils.resize(frame, width=450)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    face = face_cascade.detectMultiScale(gray, 1.15)
+    for (x, y, w, h) in face:
+        mouse.move(x, y)
 
     # detect faces in the grayscale frame
     rects = detector(gray, 0)
@@ -225,14 +229,20 @@ while True:
         
         if leftEAR < EYE_AR_THRESH - 0.12:
             print ("Left Eye Blinked")
+            m,n = mouse.position()
+            mouse.click_pos(m, n, 0)
             time.sleep(1)
 
         elif rightEAR < EYE_AR_THRESH -0.12:
-            print ("Right Eye Blinked")   
+            print ("Right Eye Blinked")  
+            m,n = mouse.position()
+            mouse.click_pos(m, n, 1)
             time.sleep(1) 
 
         if (leftEAR < EYE_AR_THRESH -0.12 and rightEAR < EYE_AR_THRESH -0.12):
             print("Both Eyes Blinked")
+            m,n = mouse.position()
+            mouse.doubleClick(m, m, 2, 0)
             COUNTER += 1
             prevcount = COUNTER
             time.sleep(1)
@@ -248,7 +258,7 @@ while True:
             if COUNTER >= EYE_AR_CONSEC_FRAMES:
                 TOTAL += 1
                 print ("fg")
-                mouse.doubleClick(1264, 416, 2, 0)
+                
                 
             
             # reset the eye frame counter

@@ -1,6 +1,10 @@
+import cv2
+import imutils
 import sys
 import time
 import Quartz
+
+
 
 class Mouse():
     down = [Quartz.kCGEventLeftMouseDown, Quartz.kCGEventRightMouseDown, Quartz.kCGEventOtherMouseDown]
@@ -28,7 +32,6 @@ class Mouse():
         Quartz.CGEventPost(Quartz.kCGHIDEventTap, event)
 
     def doubleClick(self, x, y, clickCount, button=0):
-        print("Double click event")
         theEvent = Quartz.CGEventCreateMouseEvent(None, Mouse.down[button], (x, y), button)
         Quartz.CGEventSetIntegerValueField(theEvent, Quartz.kCGMouseEventClickState, clickCount)
         Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
@@ -39,7 +42,7 @@ class Mouse():
         Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
         Quartz.CGEventSetType(theEvent, Quartz.kCGEventLeftMouseUp)
         Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
-        print("Double click event ended")
+        Quartz.CFRelease(theEvent)
 
 
     def click(self, button=0):
@@ -69,35 +72,28 @@ class Mouse():
     def mousedrag(self, posx, posy):
         self.mouseEvent(Quartz.kCGEventLeftMouseDragged, posx,posy)
 
-if __name__ == '__main__':
-    mouse = Mouse()
-    if sys.platform == "darwin":
-        print("Current mouse position: %d:%d" % mouse.position())
-        print("Moving to 100:100...");
-        mouse.move_rel(25, 16)
-        print("Clicking 200:200 position with using the right button...");
-        #mouse.click_pos(25, 16, 0)
-        #mouse.click_pos(25, 16, 0)
-        #mouse.click_pos(25, 16, 0)
-        mouse.move(25, 26)
-        time.sleep(0.05)
-        mouse.move(35, 26)
-        time.sleep(0.05)
-        mouse.move(40, 26)
-        time.sleep(0.05)
-        mouse.move(44, 26)
-        time.sleep(0.05)
-        mouse.move(50, 26)
-        time.sleep(0.05)
-        mouse.move(55, 26)
-        time.sleep(0.05)
-        mouse.doubleClick(1264, 416, 2, 0)
-        time.sleep(0.05)
-        mouse.click_pos(1264, 416, 1)
-        mouse.doubleClick(1264, 46, 2, 0)
 
-        
-        #mouse.doubleClick(25, 26, 2, 0)
-    elif sys.platform == "win32":
-        print("Error: Platform not supported!")
+mouse = Mouse()
+cap = cv2.VideoCapture(0)
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
+while True:
+    ret, img = cap.read()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    face = face_cascade.detectMultiScale(gray, 1.15)
+
+    for (x, y, w, h) in face:
+        cv2.circle(img, ((int)(x+w/2),(int)(y+h/2)), 3, (255,0,0), 2)
+        mouse.move(x, y)
+
+
+    cv2.circle(img,(650,450), 63, (0,0,255), 2)
+    img = imutils.resize(img,500)
+    cv2.imshow("image", img)
+
+    k = cv2.waitKey(1) & 0xff
+    if k == ord("q"):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
