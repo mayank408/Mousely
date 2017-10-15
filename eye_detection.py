@@ -16,11 +16,83 @@ import dlib
 import cv2
 import sched, time
 import time
-from mouse import Mouse
+import sys
+import time
+import Quartz
 from datetime import datetime, date
 
 
 now = time.time()
+
+class Mouse():
+    down = [Quartz.kCGEventLeftMouseDown, Quartz.kCGEventRightMouseDown, Quartz.kCGEventOtherMouseDown]
+    up = [Quartz.kCGEventLeftMouseUp, Quartz.kCGEventRightMouseUp, Quartz.kCGEventOtherMouseUp]
+    [LEFT, RIGHT, OTHER] = [0, 1, 2]
+
+    def position(self):
+        point = Quartz.CGEventGetLocation( Quartz.CGEventCreate(None) )
+        return point.x, point.y
+
+    def __mouse_event(self, type, x, y):
+        mouse_event = Quartz.CGEventCreateMouseEvent(None, type, (x, y), Quartz.kCGMouseButtonLeft)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, mouse_event)
+
+    def move(self, x, y):
+        self.__mouse_event(Quartz.kCGEventMouseMoved, x, y)
+        Quartz.CGWarpMouseCursorPosition((x, y))
+
+    def press(self, x, y, button=0):
+        event = Quartz.CGEventCreateMouseEvent(None, Mouse.down[button], (x, y), button)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, event)
+
+    def release(self, x, y, button=0):
+        event = Quartz.CGEventCreateMouseEvent(None, Mouse.up[button], (x, y), button)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, event)
+
+    def doubleClick(self, x, y, clickCount, button=0):
+        print("Double click event")
+        theEvent = Quartz.CGEventCreateMouseEvent(None, Mouse.down[button], (x, y), button)
+        Quartz.CGEventSetIntegerValueField(theEvent, Quartz.kCGMouseEventClickState, clickCount)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
+        Quartz.CGEventSetType(theEvent, Quartz.kCGEventLeftMouseUp)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
+        Quartz.CGEventSetType(theEvent, Quartz.kCGEventLeftMouseDown)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
+        Quartz.CGEventSetType(theEvent, Quartz.kCGEventLeftMouseUp)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
+        print("Double click event ended")
+
+
+    def click(self, button=0):
+        x, y = self.position()
+        self.press(x, y, button)
+        self.release(x, y, button)
+
+    def click_pos(self, x, y, button=0):
+        self.move(x, y)
+        self.click(button)
+
+    def torelative(self, x, y):
+        curr_pos = Quartz.CGEventGetLocation( Quartz.CGEventCreate(None) )
+        x += curr_pos.x;
+        y += curr_pos.y;
+        return [x, y]
+
+    def move_rel(self, x, y):
+        [x, y] = self.torelative(x, y)
+        moveEvent = Quartz.CGEventCreateMouseEvent(None, Quartz.kCGEventMouseMoved, Quartz.CGPointMake(x, y), 0)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, moveEvent)
+
+    def mouseEvent(self, type, posx, posy):
+        theEvent = Quartz.CGEventCreateMouseEvent(None, type, (posx,posy), Quartz.kCGMouseButtonLeft)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
+
+    def mousedrag(self, posx, posy):
+        self.mouseEvent(Quartz.kCGEventLeftMouseDragged, posx,posy)
+
+
+
 
 
 def eye_aspect_ratio(eye):
@@ -97,7 +169,7 @@ time.sleep(1.0)
 currentCount = 0
 # loop over frames from the video stream
 
-Mouse.doubleClick(1264, 416, 2, 0)
+mouse = Mouse()
 
 
 while True:
@@ -150,10 +222,20 @@ while True:
 
 
             # send_request('http://localhost/5000/data', {})
-      
-        if ear < EYE_AR_THRESH - 0.1:
+        
+        if leftEAR < EYE_AR_THRESH - 0.12:
+            print ("Left Eye Blinked")
+            time.sleep(1)
+
+        elif rightEAR < EYE_AR_THRESH -0.12:
+            print ("Right Eye Blinked")   
+            time.sleep(1) 
+
+        if (leftEAR < EYE_AR_THRESH -0.12 and rightEAR < EYE_AR_THRESH -0.12):
+            print("Both Eyes Blinked")
             COUNTER += 1
             prevcount = COUNTER
+            time.sleep(1)
             
             #Mouse.doubleClick(1264, 416, 2, 0)
         # otherwise, the eye aspect ratio is not below the blink
@@ -166,6 +248,7 @@ while True:
             if COUNTER >= EYE_AR_CONSEC_FRAMES:
                 TOTAL += 1
                 print ("fg")
+                mouse.doubleClick(1264, 416, 2, 0)
                 
             
             # reset the eye frame counter
@@ -174,6 +257,10 @@ while True:
         # draw the total number of blinks on the frame along with
         # the computed eye aspect ratio for the frame
         cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 30),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        cv2.putText(frame, "Left: {}".format(leftEAR), (10, 50),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        cv2.putText(frame, "Right: {}".format(rightEAR), (10, 70),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
