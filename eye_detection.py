@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# USAGE
-# python detect_blinks.py --shape-predictor shape_predictor_68_face_landmarks.dat --video blink_detection_demo.mp4
-# python detect_blinks.py --shape-predictor shape_predictor_68_face_landmarks.dat
-
-# import the necessary packages
-
 from scipy.spatial import distance as dist
 from imutils.video import FileVideoStream
 from imutils.video import VideoStream
@@ -185,10 +178,18 @@ while True:
     # channels)
     frame = vs.read()
     frame = imutils.resize(frame, width=450)
+
+    width, height, c = frame.shape
+
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    cv2.circle(frame, ((int)(height/2),(int)(width/2)), 4, (0,0,255), 2)
+    cv2.circle(frame, ((int)(height/2),(int)(width/2)), 25, (128,0,128), 2)
     face = face_cascade.detectMultiScale(gray, 1.15)
     for (x, y, w, h) in face:
-        mouse.move(x, y)
+        slope = (float)((y+h/2 - width/2)/(y+h/2 - height/2))
+        print (slope)
+        cv2.circle(frame, ((int)(x+w/2),(int)(y+h/2)), 3, (255,0,0), 2)
+        #mouse.move(x, y)
 
     # detect faces in the grayscale frame
     rects = detector(gray, 0)
@@ -216,6 +217,7 @@ while True:
         # 	TOTAL = 0
         # compute the convex hull for the left and right eye, then
         # visualize each of the eyes
+
         leftEyeHull = cv2.convexHull(leftEye)
         rightEyeHull = cv2.convexHull(rightEye)
         cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
@@ -224,8 +226,7 @@ while True:
         # check to see if the eye aspect ratio is below the blink
         # threshold, and if so, increment the blink frame counter
 
-
-            # send_request('http://localhost/5000/data', {})
+        # send_request('http://localhost/5000/data', {})
         
         if leftEAR < EYE_AR_THRESH - 0.12:
             print ("Left Eye Blinked")
@@ -233,21 +234,21 @@ while True:
             mouse.click_pos(m, n, 0)
             time.sleep(1)
 
-        elif rightEAR < EYE_AR_THRESH -0.12:
+        elif rightEAR < EYE_AR_THRESH - 0.12:
             print ("Right Eye Blinked")  
             m,n = mouse.position()
             mouse.click_pos(m, n, 1)
             time.sleep(1) 
 
-        if (leftEAR < EYE_AR_THRESH -0.12 and rightEAR < EYE_AR_THRESH -0.12):
+        if (leftEAR < EYE_AR_THRESH - 0.12 and rightEAR < EYE_AR_THRESH - 0.12):
             print("Both Eyes Blinked")
             m,n = mouse.position()
             mouse.doubleClick(m, m, 2, 0)
             COUNTER += 1
             prevcount = COUNTER
             time.sleep(1)
-            
-            #Mouse.doubleClick(1264, 416, 2, 0)
+
+        # Mouse.doubleClick(1264, 416, 2, 0)
         # otherwise, the eye aspect ratio is not below the blink
         # threshold
 
