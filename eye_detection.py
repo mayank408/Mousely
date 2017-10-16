@@ -163,7 +163,7 @@ currentCount = 0
 # loop over frames from the video stream
 
 mouse = Mouse()
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('res/haarcascade_frontalface_default.xml')
 
 
 while True:
@@ -196,7 +196,7 @@ while True:
         c, e = mouse.position()
         if(d>25):
             mouse.move(x + math.cos(slope)*d*100 , y + math.sin(slope)*d*100)
-
+ 
     # detect faces in the grayscale frame
     rects = detector(gray, 0)
     prevcount = 0

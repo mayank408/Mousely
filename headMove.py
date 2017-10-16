@@ -75,7 +75,7 @@ class Mouse():
 
 mouse = Mouse()
 cap = cv2.VideoCapture(0)
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('res/haarcascade_frontalface_default.xml')
 
 while True:
     ret, img = cap.read()
