@@ -12,6 +12,7 @@ import time
 import sys
 import time
 import Quartz
+import math
 from datetime import datetime, date
 
 
@@ -83,7 +84,6 @@ class Mouse():
 
     def mousedrag(self, posx, posy):
         self.mouseEvent(Quartz.kCGEventLeftMouseDragged, posx,posy)
-
 
 
 
@@ -185,11 +185,17 @@ while True:
     cv2.circle(frame, ((int)(height/2),(int)(width/2)), 4, (0,0,255), 2)
     cv2.circle(frame, ((int)(height/2),(int)(width/2)), 25, (128,0,128), 2)
     face = face_cascade.detectMultiScale(gray, 1.15)
+
+    t = time.time();
+
     for (x, y, w, h) in face:
-        slope = (float)((y+h/2 - width/2)/(y+h/2 - height/2))
+        slope = math.atan((float)((y+h/2 - width/2)/(y+h/2 - height/2)))
         print (slope)
-        cv2.circle(frame, ((int)(x+w/2),(int)(y+h/2)), 3, (255,0,0), 2)
-        #mouse.move(x, y)
+        cv2.circle(frame, ((int)(x+w/2), (int)(y+h/2)), 3, (255,0,0), 2)
+        d = dist.euclidean((x+w/2, y+h/2), (height/2, width/2)) 
+        c, e = mouse.position()
+        if(d>25):
+            mouse.move(x + math.cos(slope)*d*100 , y + math.sin(slope)*d*100)
 
     # detect faces in the grayscale frame
     rects = detector(gray, 0)
@@ -201,6 +207,7 @@ while True:
         # array
         shape = predictor(gray, rect)
         shape = face_utils.shape_to_np(shape)
+
 
         # extract the left and right eye coordinates, then use the
         # coordinates to compute the eye aspect ratio for both eyes
@@ -225,8 +232,6 @@ while True:
 
         # check to see if the eye aspect ratio is below the blink
         # threshold, and if so, increment the blink frame counter
-
-        # send_request('http://localhost/5000/data', {})
         
         if leftEAR < EYE_AR_THRESH - 0.12:
             print ("Left Eye Blinked")
@@ -243,7 +248,7 @@ while True:
         if (leftEAR < EYE_AR_THRESH - 0.12 and rightEAR < EYE_AR_THRESH - 0.12):
             print("Both Eyes Blinked")
             m,n = mouse.position()
-            mouse.doubleClick(m, m, 2, 0)
+            mouse.doubleClick(m, n, 2, 0)
             COUNTER += 1
             prevcount = COUNTER
             time.sleep(1)
@@ -257,15 +262,11 @@ while True:
             # then increment the total number of blinks
             #print(EYE_AR_CONSEC_FRAMES)
             if COUNTER >= EYE_AR_CONSEC_FRAMES:
-                TOTAL += 1
-                print ("fg")
-                
-                
+                TOTAL += 1           
             
             # reset the eye frame counter
             COUNTER = 0
 
-        # draw the total number of blinks on the frame along with
         # the computed eye aspect ratio for the frame
         cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
