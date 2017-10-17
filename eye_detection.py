@@ -132,7 +132,6 @@ def print_time():
     if ear > .3:
         COUNTER = 0
 
-
 def print_some_times():
     print (time.time())
     s.enter(1, 1, print_time, ())
@@ -165,7 +164,6 @@ currentCount = 0
 mouse = Mouse()
 face_cascade = cv2.CascadeClassifier('res/haarcascade_frontalface_default.xml')
 
-
 while True:
 
     # if this is a file video stream, then we need to check if
@@ -186,16 +184,22 @@ while True:
     cv2.circle(frame, ((int)(height/2),(int)(width/2)), 25, (128,0,128), 2)
     face = face_cascade.detectMultiScale(gray, 1.15)
 
-    t = time.time();
+    
 
     for (x, y, w, h) in face:
-        slope = math.atan((float)((y+h/2 - width/2)/(y+h/2 - height/2)))
-        print (slope)
+        slope = math.atan((float)((y+h/2 - height/2)/(y+h/2 - width/2)))
+        #print (slope)
         cv2.circle(frame, ((int)(x+w/2), (int)(y+h/2)), 3, (255,0,0), 2)
-        d = dist.euclidean((x+w/2, y+h/2), (height/2, width/2)) 
+        d = dist.euclidean((x+w/2, y+h/2), (width/2, height/2))
         c, e = mouse.position()
         if(d>25):
-            mouse.move(x + math.cos(slope)*d*100 , y + math.sin(slope)*d*100)
+            t = time.time()
+            while (time.time() - t < 2):
+                j = dist.euclidean((x+w/2, y+h/2), (width/2, height/2)) 
+                print (j)
+                mouse.move(x + w/2 + math.sin(slope)*100*(time.time() - t), y + h/2 + math.cos(slope)*100*(time.time() - t))
+                if(j<25):
+                    break 
  
     # detect faces in the grayscale frame
     rects = detector(gray, 0)
@@ -228,18 +232,18 @@ while True:
         leftEyeHull = cv2.convexHull(leftEye)
         rightEyeHull = cv2.convexHull(rightEye)
         cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
-        cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
+        cv2.drawContours(frame, [rightEyeHull],  -1, (0, 255, 0), 1)
 
         # check to see if the eye aspect ratio is below the blink
         # threshold, and if so, increment the blink frame counter
         
-        if leftEAR < EYE_AR_THRESH - 0.12:
+        if leftEAR < EYE_AR_THRESH - 0.12 and rightEAR > EYE_AR_THRESH - 0.12:
             print ("Left Eye Blinked")
             m,n = mouse.position()
             mouse.click_pos(m, n, 0)
             time.sleep(1)
 
-        elif rightEAR < EYE_AR_THRESH - 0.12:
+        elif rightEAR < EYE_AR_THRESH - 0.12 and leftEAR > EYE_AR_THRESH - 0.12:
             print ("Right Eye Blinked")  
             m,n = mouse.position()
             mouse.click_pos(m, n, 1)
@@ -250,22 +254,12 @@ while True:
             m,n = mouse.position()
             mouse.doubleClick(m, n, 2, 0)
             COUNTER += 1
+            TOTAL += 1    
             prevcount = COUNTER
             time.sleep(1)
 
         # Mouse.doubleClick(1264, 416, 2, 0)
-        # otherwise, the eye aspect ratio is not below the blink
-        # threshold
-
-        else:
-            # if the eyes were closed for a sufficient number of
-            # then increment the total number of blinks
-            #print(EYE_AR_CONSEC_FRAMES)
-            if COUNTER >= EYE_AR_CONSEC_FRAMES:
-                TOTAL += 1           
-            
-            # reset the eye frame counter
-            COUNTER = 0
+        
 
         # the computed eye aspect ratio for the frame
         cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 30),
