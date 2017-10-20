@@ -177,29 +177,31 @@ while True:
     frame = vs.read()
     frame = imutils.resize(frame, width=450)
 
-    width, height, c = frame.shape
+    height, width, c = frame.shape
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    cv2.circle(frame, ((int)(height/2),(int)(width/2)), 4, (0,0,255), 2)
-    cv2.circle(frame, ((int)(height/2),(int)(width/2)), 25, (128,0,128), 2)
+    cv2.circle(frame, ((int)(width/2),(int)(height/2)), 4, (0,0,255), 2)
+    cv2.circle(frame, ((int)(width/2),(int)(height/2)), 25, (128,0,128), 2)
     face = face_cascade.detectMultiScale(gray, 1.15)
-
     
 
     for (x, y, w, h) in face:
-        slope = math.atan((float)((y+h/2 - height/2)/(y+h/2 - width/2)))
+        slope = math.atan((float)((y+h/2 - height/2)/(x+w/2 - width/2)))
         #print (slope)
+        r = (int)(width/2 + 100 * math.cos(slope))
+        t = (int)(height/2 + 100 * math.sin(slope))
+        cv2.line(frame, ((int)(width/2), (int)(height/2)), (r,t), (255,0,0), 2)
         cv2.circle(frame, ((int)(x+w/2), (int)(y+h/2)), 3, (255,0,0), 2)
         d = dist.euclidean((x+w/2, y+h/2), (width/2, height/2))
         c, e = mouse.position()
-        if(d>25):
-            t = time.time()
-            while (time.time() - t < 2):
-                j = dist.euclidean((x+w/2, y+h/2), (width/2, height/2)) 
-                print (j)
-                mouse.move(x + w/2 + math.sin(slope)*100*(time.time() - t), y + h/2 + math.cos(slope)*100*(time.time() - t))
-                if(j<25):
-                    break 
+
+        # if(d>25):
+        #     mouse.move(x, y)
+        #     t = time.time()
+        #     while (time.time() - t < 2):
+        #         j = dist.euclidean((x+w/2, y+h/2), (width/2, height/2)) 
+        #         mouse.move(x + w/2 + math.sin(slope)*100*(time.time() - t), y + h/2 + math.cos(slope)*100*(time.time() - t))
+                
  
     # detect faces in the grayscale frame
     rects = detector(gray, 0)
@@ -259,9 +261,8 @@ while True:
             time.sleep(1)
 
         # Mouse.doubleClick(1264, 416, 2, 0)
-        
-
         # the computed eye aspect ratio for the frame
+
         cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         cv2.putText(frame, "Left: {}".format(leftEAR), (10, 50),
