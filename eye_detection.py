@@ -185,6 +185,9 @@ while True:
     
 
     for (x, y, w, h) in face:
+        
+        #to avoid mirror image
+        x = width - (x + w)
         slope = math.atan((float)((y+h/2 - height/2)/(x+w/2 - width/2)))
 
         r = (int)(width/2 + 100 * math.cos(slope))
