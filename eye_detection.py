@@ -16,7 +16,11 @@ import math
 from datetime import datetime, date
 
 
-now = time.time()
+# mayank408
+# OOP Project
+# 13/10/17
+
+# Mouse Events Class
 
 class Mouse():
     down = [Quartz.kCGEventLeftMouseDown, Quartz.kCGEventRightMouseDown, Quartz.kCGEventOtherMouseDown]
@@ -87,6 +91,8 @@ class Mouse():
 
 
 
+ # Detecting Blinking of eyes
+
 
 def eye_aspect_ratio(eye):
     # compute the euclidean distances between the two sets of
@@ -141,7 +147,7 @@ def print_some_times():
 
 # initialize dlib's face detector (HOG-based) and then create
 # the facial landmark predictor
-print("[INFO] loading facial landmark predictor...")
+print("Loading facial landmark predictor...")
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(args["shape_predictor"])
 
@@ -150,16 +156,14 @@ predictor = dlib.shape_predictor(args["shape_predictor"])
 (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
-# start the video stream thread
-print("[INFO] starting video stream thread...")
-# vs = FileVideoStream(args["video"]).start()
-# fileStream = True
+
+print("Starting live video stream...")
+
 vs = VideoStream(src=0).start()
-# vs = VideoStream(usePiCamera=True).start()
+
 fileStream = False
 time.sleep(1.0)
 currentCount = 0
-# loop over frames from the video stream
 
 mouse = Mouse()
 face_cascade = cv2.CascadeClassifier('res/haarcascade_frontalface_default.xml')
@@ -187,10 +191,10 @@ while True:
 
     for (x, y, w, h) in face:
         slope = math.atan((float)((y+h/2 - height/2)/(x+w/2 - width/2)))
-        #print (slope)
+
         r = (int)(width/2 + 100 * math.cos(slope))
         t = (int)(height/2 + 100 * math.sin(slope))
-        #x = width/2 - (x + w/2 - width/2)
+
         cv2.line(frame, ((int)(width/2), (int)(height/2)), ((int)(x+w/2), (int)(y+h/2)), (255,0,0), 2)
         cv2.circle(frame, ((int)(x+w/2), (int)(y+h/2)), 3, (255,0,0), 2)
         d = dist.euclidean((x+w/2, y+h/2), (width/2, height/2))
@@ -201,20 +205,7 @@ while True:
                 mouse.move(c + 10 * math.cos(slope), e + 10 * math.sin(slope))
             else :
                 mouse.move(c - 10 * math.cos(slope), e - 10 * math.sin(slope))
-                
-            # while (1):
-            #     mouse.move(width/2 + 100 * math.cos(slope)*(time.time() - t), height/2 + 100 * math.sin(slope)*(time.time() - t))
-            #     for (x, y, w, h) in face:
-            #         q = dist.euclidean((x+w/2, y+h/2), (width/2, height/2))
-            #         print ()
-            #         if(q < 25):
-            #             f = False
-            #             break
-            #         if(f == False):
-            #             break
-                        
 
-                
  
     # detect faces in the grayscale frame
     rects = detector(gray, 0)
@@ -227,7 +218,6 @@ while True:
         shape = predictor(gray, rect)
         shape = face_utils.shape_to_np(shape)
 
-
         # extract the left and right eye coordinates, then use the
         # coordinates to compute the eye aspect ratio for both eyes
         leftEye = shape[lStart:lEnd]
@@ -238,19 +228,12 @@ while True:
         # average the eye aspect ratio together for both eyes
         ear = (leftEAR + rightEAR) / 2.0
 
-        # if ear > .42 or COUNTER > 5:
-        # 	print(ear)
-        # 	TOTAL = 0
-        # compute the convex hull for the left and right eye, then
-        # visualize each of the eyes
-
         leftEyeHull = cv2.convexHull(leftEye)
         rightEyeHull = cv2.convexHull(rightEye)
         cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
         cv2.drawContours(frame, [rightEyeHull],  -1, (0, 255, 0), 1)
 
         # check to see if the eye aspect ratio is below the blink
-        # threshold, and if so, increment the blink frame counter
         
         if leftEAR < EYE_AR_THRESH - 0.12 and rightEAR > EYE_AR_THRESH - 0.12:
             print ("Left Eye Blinked")
@@ -273,14 +256,13 @@ while True:
             prevcount = COUNTER
             time.sleep(1)
 
-        # Mouse.doubleClick(1264, 416, 2, 0)
         # the computed eye aspect ratio for the frame
 
-        cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 30),
+        cv2.putText(frame, "Blinks: {:.2f}".format(TOTAL), (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        cv2.putText(frame, "Left: {}".format(leftEAR), (10, 50),
+        cv2.putText(frame, "Left: {:.2f}".format(leftEAR), (10, 50),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        cv2.putText(frame, "Right: {}".format(rightEAR), (10, 70),
+        cv2.putText(frame, "Right: {:.2f}".format(rightEAR), (10, 70),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
