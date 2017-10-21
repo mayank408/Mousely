@@ -73,12 +73,8 @@ if __name__ == '__main__':
     mouse = Mouse()
     if sys.platform == "darwin":
         print("Current mouse position: %d:%d" % mouse.position())
-        print("Moving to 100:100...");
         mouse.move_rel(25, 16)
-        print("Clicking 200:200 position with using the right button...");
-        #mouse.click_pos(25, 16, 0)
-        #mouse.click_pos(25, 16, 0)
-        #mouse.click_pos(25, 16, 0)
+        print("Clickingthe right button...");
         mouse.move(25, 26)
         time.sleep(0.05)
         mouse.move(35, 26)
@@ -95,9 +91,9 @@ if __name__ == '__main__':
         time.sleep(0.05)
         mouse.click_pos(1264, 416, 1)
         mouse.doubleClick(1264, 46, 2, 0)
-
         
         #mouse.doubleClick(25, 26, 2, 0)
+        
     elif sys.platform == "win32":
         print("Error: Platform not supported!")
 
