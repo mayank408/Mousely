@@ -17,8 +17,21 @@ Currently this application is compaitable with OSX only.
 
 2. [Dlib](http://blog.dlib.net/2014/08/real-time-face-pose-estimation.html) : It is used to detect facial landmarks with high accuracy. Blinking detection in the project is done using this library.
 
-3. [OpenCV](https://opencv.org) : It is the Computer vision library which has C/C++, Python, Java interfaces. For this project 
-I have used OpenCV in Python.
+3. [OpenCV](https://opencv.org) : It is the Computer vision library which has C/C++, Python, Java interfaces. For this project, I have used OpenCV in Python.
+
+
+
+ewfewfewfwe
+1. Installing Python3 using Homebrew
+'''
+bew install python3
+'''
+
+2. Installing OpenCV
+'''
+bew install opencv3
+'''
+
 
 
 
