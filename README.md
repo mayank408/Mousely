@@ -21,16 +21,47 @@ Currently this application is compaitable with OSX only.
 
 
 
-ewfewfewfwe
-1. Installing Python3 using Homebrew
-'''
+# Installation instructions for OSX
+
+1. Installing Python3 using brew
+
+```
 bew install python3
-'''
+```
 
 2. Installing OpenCV
-'''
+
+```
 bew install opencv3
-'''
+```
+
+3. Installing Shape Predictor : Download http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
+
+4. Installing Dlib : The complete instructions step by step for downloading dlib is given [here](https://www.learnopencv.com/install-dlib-on-macos/)
+
+
+# Running the app
+
+Run eye_detection.py providing shape predictor as the argument.
+
+```
+python3 eye_detection.py -p res/shape_predictor_68_face_landmarks.dat 
+```
+
+# Screenshots
+
+# Challenges / Todo
+
+1. Improving Accuracy (obviosuly)
+2. Distinguish more clearly between natural blinking of eyes and explicit blinking.
+3. Compaitability with Windows.
+
+## References
+
+1. https://www.pyimagesearch.com/2017/04/.../eye-blink-detection-opencv-python-dlib/
+
+
+
 
 
 
