@@ -1,13 +1,12 @@
 # Mousely
 
-A Utility Application made with OpenCV allowing the user to control cursor with head movements and can perform click event using 
-blinking of eyes. 
-
-Technology used : OpenCV, Quartz and Dlib 
+A Utility Application made with OpenCV allowing the user to control cursor with head movements and can perform click events using blinking of eyes. 
 
 Blinking of left eye corresponds to Left click event.<br />
 Blinking of right eye corresponds to Right click event.<br />
 Blinking of both the eyes corresponds to Double click event.
+
+Technology used : OpenCV, Quartz and Dlib 
 
 Currently this application is compatible with OSX only.
 
@@ -26,13 +25,13 @@ Currently this application is compatible with OSX only.
 1. Installing Python3 using brew
 
 ```
-bew install python3
+brew install python3
 ```
 
 2. Installing OpenCV
 
 ```
-bew install opencv3
+brew install opencv3
 ```
 
 3. Installing Shape Predictor : Download http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
