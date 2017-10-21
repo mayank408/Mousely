@@ -115,8 +115,6 @@ def eye_aspect_ratio(eye):
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--shape-predictor", required=True,
                 help="path to facial landmark predictor")
-ap.add_argument("-i", "--image", required=True,
-    help="path to input image")
 # ap.add_argument("-v", "--video", type=str, default="",
 #                 help="path to input video file")
 args = vars(ap.parse_args())
