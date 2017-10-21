@@ -181,7 +181,7 @@ while True:
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     cv2.circle(frame, ((int)(width/2),(int)(height/2)), 4, (0,0,255), 2)
-    cv2.circle(frame, ((int)(width/2),(int)(height/2)), 25, (128,0,128), 2)
+    cv2.circle(frame, ((int)(width/2),(int)(height/2)), 20, (128,0,128), 2)
     face = face_cascade.detectMultiScale(gray, 1.15)
     
 
@@ -196,7 +196,7 @@ while True:
         d = dist.euclidean((x+w/2, y+h/2), (width/2, height/2))
         c, e = mouse.position()
 
-        if(d>25):
+        if(d>20):
             if(x+w/2 > width/2):
                 mouse.move(c + 10 * math.cos(slope), e + 10 * math.sin(slope))
             else :
