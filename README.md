@@ -9,7 +9,7 @@ Blinking of left eye corresponds to Left click event.<br />
 Blinking of right eye corresponds to Right click event.<br />
 Blinking of both the eyes corresponds to Double click event.
 
-Currently this application is compaitable with OSX only.
+Currently this application is compatible with OSX only.
 
 ## Dependencies Used
 
@@ -39,7 +39,7 @@ bew install opencv3
 
 4. Installing Dlib : The complete instructions step by step for downloading dlib is given [here](https://www.learnopencv.com/install-dlib-on-macos/)
 
-5. Installing Boost and Boost-Python (Required for dlib) : The complete instructions step by step for downloading dlib is given [here](https://www.pyimagesearch.com/2015/04/27/installing-boost-and-boost-python-on-osx-with-homebrew/)
+5. Installing Boost and Boost-Python (Required for dlib) : The complete instructions step by step for downloading boost and boost-python is given [here](https://www.pyimagesearch.com/2015/04/27/installing-boost-and-boost-python-on-osx-with-homebrew/)
 
 
 ## Running the app
@@ -52,11 +52,13 @@ python3 eye_detection.py -p res/shape_predictor_68_face_landmarks.dat
 
 ## Screenshots
 
+![](https://github.com/mayank408/Mousely/blob/master/img_demo/Screen%20Shot%202017-10-21%20at%206.19.26%20PM.png)
+
 ## Challenges / Todo
 
 1. Improving Accuracy (obviously)
 2. Distinguish more clearly between natural blinking of eyes and explicit blinking.
-3. Compaitability with Windows.
+3. compatibility with Windows.
 
 ## References
 
