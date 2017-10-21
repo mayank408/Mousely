@@ -16,7 +16,7 @@ import math
 from datetime import datetime, date
 
 
-# mayank408
+# @mayank408
 # OOP Project
 # 13/10/17
 
@@ -115,11 +115,9 @@ def eye_aspect_ratio(eye):
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--shape-predictor", required=True,
                 help="path to facial landmark predictor")
-# ap.add_argument("-v", "--video", type=str, default="",
-#                 help="path to input video file")
 args = vars(ap.parse_args())
 
-# define two constants, one for the eye aspect ratio to indicate
+# defining two constants, one for the eye aspect ratio to indicate
 # blink and then a second constant for the number of consecutive
 # frames the eye must be below the threshold
 EYE_AR_THRESH = 0.3
@@ -130,7 +128,6 @@ COUNTER = 0
 TOTAL = 0
 
 s = sched.scheduler(time.time, time.sleep)
-
 
 def print_time():
     if ear > .3:
@@ -223,7 +220,7 @@ while True:
         leftEAR = eye_aspect_ratio(leftEye)
         rightEAR = eye_aspect_ratio(rightEye)
 
-        # average the eye aspect ratio together for both eyes
+        # average the eye aspect ratio together for both eyes\ 
         ear = (leftEAR + rightEAR) / 2.0
 
         leftEyeHull = cv2.convexHull(leftEye)
@@ -256,7 +253,7 @@ while True:
 
         # the computed eye aspect ratio for the frame
 
-        cv2.putText(frame, "Blinks: {:.2f}".format(TOTAL), (10, 30),
+        cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         cv2.putText(frame, "Left: {:.2f}".format(leftEAR), (10, 50),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
