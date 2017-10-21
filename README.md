@@ -39,7 +39,7 @@ bew install opencv3
 
 4. Installing Dlib : The complete instructions step by step for downloading dlib is given [here](https://www.learnopencv.com/install-dlib-on-macos/)
 
-5. Installing Boost and Boost-Python (Required for dlib) : The complete instructions step by step for downloading dlib is given [here](https://www.pyimagesearch.com/2015/04/27/installing-boost-and-boost-python-on-osx-with-homebrew/)
+5. Installing Boost and Boost-Python (Required for dlib) : The complete instructions step by step for downloading boost and boost-python is given [here](https://www.pyimagesearch.com/2015/04/27/installing-boost-and-boost-python-on-osx-with-homebrew/)
 
 
 ## Running the app
