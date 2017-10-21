@@ -190,18 +190,30 @@ while True:
         #print (slope)
         r = (int)(width/2 + 100 * math.cos(slope))
         t = (int)(height/2 + 100 * math.sin(slope))
-        x = width/2 - (x + w/2 - width/2)
+        #x = width/2 - (x + w/2 - width/2)
         cv2.line(frame, ((int)(width/2), (int)(height/2)), ((int)(x+w/2), (int)(y+h/2)), (255,0,0), 2)
         cv2.circle(frame, ((int)(x+w/2), (int)(y+h/2)), 3, (255,0,0), 2)
         d = dist.euclidean((x+w/2, y+h/2), (width/2, height/2))
         c, e = mouse.position()
 
-        # if(d>25):
-        #     mouse.move(x, y)
-        #     t = time.time()
-        #     while (time.time() - t < 2):
-        #         j = dist.euclidean((x+w/2, y+h/2), (width/2, height/2)) 
-        #         mouse.move(x + w/2 + math.sin(slope)*100*(time.time() - t), y + h/2 + math.cos(slope)*100*(time.time() - t))
+        if(d>25):
+            if(x+w/2 > width/2):
+                mouse.move(c + 10 * math.cos(slope), e + 10 * math.sin(slope))
+            else :
+                mouse.move(c - 10 * math.cos(slope), e - 10 * math.sin(slope))
+                
+            # while (1):
+            #     mouse.move(width/2 + 100 * math.cos(slope)*(time.time() - t), height/2 + 100 * math.sin(slope)*(time.time() - t))
+            #     for (x, y, w, h) in face:
+            #         q = dist.euclidean((x+w/2, y+h/2), (width/2, height/2))
+            #         print ()
+            #         if(q < 25):
+            #             f = False
+            #             break
+            #         if(f == False):
+            #             break
+                        
+
                 
  
     # detect faces in the grayscale frame
