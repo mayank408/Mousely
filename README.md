@@ -5,13 +5,13 @@ blinking of eyes.
 
 Technology used : OpenCV, Quartz and Dlib 
 
-Blinking of left eye corresponds to Left click event.
-Blinking of right eye corresponds to Right click event.
+Blinking of left eye corresponds to Left click event.<br />
+Blinking of right eye corresponds to Right click event.<br />
 Blinking of both the eyes corresponds to Double click event.
 
 Currently this application is compaitable with OSX only.
 
-# Dependencies Used
+## Dependencies Used
 
 1. [Quartz](https://github.com/mayank408/Mousely/edit/master/README.md) : It is used to interact with the operating system and carry out events such as clicking and moving the cursor.
 
@@ -21,7 +21,7 @@ Currently this application is compaitable with OSX only.
 
 
 
-# Installation instructions for OSX
+## Installation instructions for OSX
 
 1. Installing Python3 using brew
 
@@ -40,7 +40,7 @@ bew install opencv3
 4. Installing Dlib : The complete instructions step by step for downloading dlib is given [here](https://www.learnopencv.com/install-dlib-on-macos/)
 
 
-# Running the app
+## Running the app
 
 Run eye_detection.py providing shape predictor as the argument.
 
@@ -48,17 +48,21 @@ Run eye_detection.py providing shape predictor as the argument.
 python3 eye_detection.py -p res/shape_predictor_68_face_landmarks.dat 
 ```
 
-# Screenshots
+## Screenshots
 
-# Challenges / Todo
+## Challenges / Todo
 
-1. Improving Accuracy (obviosuly)
+1. Improving Accuracy (obviously)
 2. Distinguish more clearly between natural blinking of eyes and explicit blinking.
 3. Compaitability with Windows.
 
 ## References
 
-1. https://www.pyimagesearch.com/2017/04/.../eye-blink-detection-opencv-python-dlib/
+* https://www.pyimagesearch.com/2017/04/.../eye-blink-detection-opencv-python-dlib/
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 
 
