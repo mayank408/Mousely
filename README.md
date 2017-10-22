@@ -1,6 +1,6 @@
 # Mousely
 
-A Utility Application made with OpenCV allowing the user to control cursor with head movements and can perform click events using blinking of eyes. 
+> A Utility Application made with OpenCV allowing the user to control cursor with head movements and can perform click events using blinking of eyes. 
 
 Blinking of left eye corresponds to Left click event.<br />
 Blinking of right eye corresponds to Right click event.<br />
@@ -41,11 +41,11 @@ sudo pip3 install pyobjc-core
 sudo pip3 install pyobjc
 ```
 
-3. Installing Shape Predictor : Download http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
+4. Installing Shape Predictor : Download http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
 
-4. Installing Dlib : The complete instructions step by step for downloading dlib is given [here](https://www.learnopencv.com/install-dlib-on-macos/)
+5. Installing Dlib : The complete instructions step by step for downloading dlib is given [here](https://www.learnopencv.com/install-dlib-on-macos/)
 
-5. Installing Boost and Boost-Python (Required for dlib) : The complete instructions step by step for downloading boost and boost-python is given [here](https://www.pyimagesearch.com/2015/04/27/installing-boost-and-boost-python-on-osx-with-homebrew/)
+6. Installing Boost and Boost-Python (Required for dlib) : The complete instructions step by step for downloading boost and boost-python is given [here](https://www.pyimagesearch.com/2015/04/27/installing-boost-and-boost-python-on-osx-with-homebrew/)
 
 
 ## Running the app
