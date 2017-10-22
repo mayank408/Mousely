@@ -34,6 +34,13 @@ brew install python3
 brew install opencv3
 ```
 
+3. Installing Quartz
+```
+sudo pip3 install pyobjc-framework-Quartz
+sudo pip3 install pyobjc-core
+sudo pip3 install pyobjc
+```
+
 3. Installing Shape Predictor : Download http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
 
 4. Installing Dlib : The complete instructions step by step for downloading dlib is given [here](https://www.learnopencv.com/install-dlib-on-macos/)
@@ -57,7 +64,7 @@ python3 eye_detection.py -p res/shape_predictor_68_face_landmarks.dat
 
 1. Improving Accuracy (obviously)
 2. Distinguish more clearly between natural blinking of eyes and explicit blinking.
-3. compatibility with Windows.
+3. Compatibility with Windows.
 
 ## References
 
@@ -65,7 +72,29 @@ python3 eye_detection.py -p res/shape_predictor_68_face_landmarks.dat
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+```
+MIT License
+
+Copyright (c) 2017 Mayank Tripathi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 
 
