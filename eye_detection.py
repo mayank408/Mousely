@@ -1,5 +1,4 @@
 from scipy.spatial import distance as dist
-from imutils.video import FileVideoStream
 from imutils.video import VideoStream
 from imutils import face_utils
 import numpy as np
@@ -7,10 +6,9 @@ import argparse
 import imutils
 import dlib
 import cv2
-import sched, time
+import sched
 import time
 import sys
-import time
 import Quartz
 import math
 from datetime import datetime, date
@@ -91,7 +89,7 @@ class Mouse():
 
 
 
- # Detecting Blinking of eyes
+# Detecting Blinking of eyes
 
 
 def eye_aspect_ratio(eye):
@@ -185,8 +183,8 @@ while True:
     
 
     for (x, y, w, h) in face:
-        
-        #to avoid mirror image
+
+        #to avoid mirror image`
         x = width - (x + w)
         slope = math.atan((float)((y+h/2 - height/2)/(x+w/2 - width/2)))
 
@@ -199,10 +197,11 @@ while True:
         c, e = mouse.position()
 
         if(d>20):
+            speed = 5 
             if(x+w/2 > width/2):
-                mouse.move(c + 10 * math.cos(slope), e + 10 * math.sin(slope))
+                mouse.move(c + speed * math.cos(slope), e + speed * math.sin(slope))
             else :
-                mouse.move(c - 10 * math.cos(slope), e - 10 * math.sin(slope))
+                mouse.move(c - speed * math.cos(slope), e - speed * math.sin(slope))
 
  
     # detect faces in the grayscale frame
