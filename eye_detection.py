@@ -186,7 +186,7 @@ while True:
     w=0
     h=0
     for (mx, my, mw, mh) in face:
-        d = dist.euclidean((x+w/2, y+h/2), (width/2, height/2))
+        d = dist.euclidean((mx+w/2, my+h/2), (width/2, height/2))
         if(d < min_dis):
              min_dis = d
              x = mx
@@ -196,6 +196,7 @@ while True:
 
 
     if(x!=0 and y!=0 and w!=0 and h!=0):         
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
         #to avoid mirror image 
         x = width - (x + w)
         slope = math.atan((float)((y+h/2 - height/2)/(x+w/2 - width/2)))
