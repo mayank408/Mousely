@@ -119,7 +119,6 @@ args = vars(ap.parse_args())
 # blink and then a second constant for the number of consecutive
 # frames the eye must be below the threshold
 EYE_AR_THRESH = 0.3
-EYE_AR_CONSEC_FRAMES = 3
 
 # initialize the frame counters and the total number of blinks
 COUNTER = 0
@@ -180,11 +179,24 @@ while True:
     cv2.circle(frame, ((int)(width/2),(int)(height/2)), 4, (0,0,255), 2)
     cv2.circle(frame, ((int)(width/2),(int)(height/2)), 20, (128,0,128), 2)
     face = face_cascade.detectMultiScale(gray, 1.15)
-    
 
-    for (x, y, w, h) in face:
+    min_dis = 100000
+    x=0
+    y=0
+    w=0
+    h=0
+    for (mx, my, mw, mh) in face:
+        d = dist.euclidean((x+w/2, y+h/2), (width/2, height/2))
+        if(d < min_dis):
+             min_dis = d
+             x = mx
+             y = my
+             w = mw
+             h = mh
 
-        #to avoid mirror image`
+
+    if(x!=0 and y!=0 and w!=0 and h!=0):         
+        #to avoid mirror image 
         x = width - (x + w)
         slope = math.atan((float)((y+h/2 - height/2)/(x+w/2 - width/2)))
 
