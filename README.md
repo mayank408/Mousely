@@ -60,6 +60,8 @@ python3 eye_detection.py -p res/shape_predictor_68_face_landmarks.dat
 
 ![](https://github.com/mayank408/Mousely/blob/master/img_demo/Screen%20Shot%202017-10-21%20at%206.19.26%20PM.png)
 
+Demo is available at the [link](https://drive.google.com/file/d/1pJwu-km2y708ohy1PWVJtKd2lDEGu_lx/view?usp=sharing).
+
 ## Challenges / Todo
 
 1. Improving Accuracy (obviously)
