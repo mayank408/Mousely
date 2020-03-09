@@ -1,6 +1,6 @@
 # Mousely
 
-> An Utility Application made with OpenCV allowing the user to control cursor with head movements and can perform click events using blinking of eyes. 
+> A Utility Application made with OpenCV allowing the user to control the cursor with head movements and can perform click events using the blinking of eyes. 
 
 Blinking of left eye corresponds to Left click event.<br />
 Blinking of right eye corresponds to Right click event.<br />
